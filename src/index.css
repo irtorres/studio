@@ -1,0 +1,154 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand palette */
+  --color-navy: #0C1C30;
+  --color-navy-700: #16293D;
+  --color-navy-600: #23394F;
+  --color-navy-500: #31485F;
+  --color-lime: #C6D852;
+  --color-lime-600: #A8BA3A;
+  --color-lime-700: #7E8F22;
+  --color-lime-100: #E8EFBA;
+
+  /* Studio surfaces — a shade below navy so cards can sit *on* the page */
+  --color-ink: #070F1B;
+  --color-surface: #101F33;
+  --color-surface-2: #17293F;
+
+  --color-slate: #57606B;
+  --color-gray: #8B939C;
+  --color-mist: #A9B4C0;
+  --color-bone: #F5F6F7;
+  --color-hair: #24384E;
+
+  --color-success: #7DD37D;
+  --color-warning: #E8B44C;
+  --color-error: #F07167;
+
+  --font-sans: 'Inter', sans-serif;
+  --font-serif: 'DM Serif Display', serif;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--color-bone);
+  background-color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+.nums-tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Page backdrop: a slow lime bloom over deep navy */
+.bg-studio {
+  background:
+    radial-gradient(900px 500px at 12% -8%, rgba(198, 216, 82, 0.10), transparent 60%),
+    radial-gradient(760px 460px at 92% 4%, rgba(35, 57, 79, 0.75), transparent 62%),
+    linear-gradient(180deg, #0A1524 0%, #070F1B 100%);
+  background-attachment: fixed;
+}
+
+/* Scrollbars, so the dark theme doesn't get interrupted by a light gutter */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-navy-600) transparent;
+}
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: var(--color-navy-600);
+  border-radius: 999px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-navy-500);
+}
+
+/* Range inputs (seek + volume) need manual styling to look native-dark */
+.range {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+.range::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--track, var(--color-navy-600));
+}
+.range::-moz-range-track {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--color-navy-600);
+}
+.range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  margin-top: -4px;
+  border-radius: 999px;
+  background: var(--color-lime);
+  box-shadow: 0 0 0 3px rgba(198, 216, 82, 0.2);
+  transition: transform 0.12s ease;
+}
+.range::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border: none;
+  border-radius: 999px;
+  background: var(--color-lime);
+}
+.range:hover::-webkit-slider-thumb {
+  transform: scale(1.25);
+}
+.range:focus-visible {
+  outline: 2px solid var(--color-lime);
+  outline-offset: 6px;
+  border-radius: 999px;
+}
+
+/* Equaliser bars on the now-playing indicator */
+@keyframes eq {
+  0%, 100% { transform: scaleY(0.35); }
+  50%      { transform: scaleY(1); }
+}
+.eq-bar {
+  animation: eq 0.9s ease-in-out infinite;
+  transform-origin: bottom;
+}
+
+@keyframes shimmer {
+  100% { transform: translateX(100%); }
+}
+.shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(198, 216, 82, 0.10),
+    transparent
+  );
+  animation: shimmer 1.8s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

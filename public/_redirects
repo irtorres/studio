@@ -1,0 +1,13 @@
+# Same-origin proxy for Suno's audio CDN.
+#
+# Browsers ignore the `download` attribute on cross-origin URLs, and the CDN
+# may not send CORS headers, which would block fetch()->blob downloads. Routing
+# audio through our own origin sidesteps both problems. src/lib/download.js
+# falls back to this path automatically when a direct fetch fails.
+#
+# If a generated track's audio_url points at a different host, add a rule for
+# it here — the host is visible in the network tab or in the track's audioUrl.
+/cdn-audio/*  https://apiboxfiles.erweima.ai/:splat  200
+
+# SPA fallback — must stay last.
+/*  /index.html  200
